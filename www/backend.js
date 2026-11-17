@@ -717,8 +717,13 @@ called named kind sort lot think remember forgot original read reading book`.spl
       }
       if (p === "/api/story-search") return storySearch(String(body.q || ""));
       if (p === "/api/test-toast") {
-        if (typeof Notification === "undefined") throw new Error("This browser can't show notifications");
-        if (Notification.permission !== "granted" && (await Notification.requestPermission()) !== "granted") throw new Error("Notifications are blocked. Allow them for this app in your phone's settings.");
+        if (NATIVE) {
+          const LN = plugin("LocalNotifications");
+          let perm = await LN.checkPermissions();
+          if (perm.display !== "granted") perm = await LN.requestPermissions();
+          if (perm.display !== "granted") throw new Error("Notifications are blocked. Allow them for Comic Tracker in your phone's settings.");
+        } else if (typeof Notification === "undefined") throw new Error("This browser can't show notifications");
+        else if (Notification.permission !== "granted" && (await Notification.requestPermission()) !== "granted") throw new Error("Notifications are blocked. Allow them for this app in your phone's settings.");
         const was = DATA.settings.windowsToast; DATA.settings.windowsToast = true;
         await notify("Comic Tracker", "Notifications are working."); DATA.settings.windowsToast = was;
         return { ok: true };

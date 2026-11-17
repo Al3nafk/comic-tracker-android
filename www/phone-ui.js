@@ -148,7 +148,7 @@
           out.innerHTML = `Version 1.${latest} is out. <a href="https://github.com/${REPO}/releases/latest/download/ComicTracker.apk" target="_blank" rel="noopener">Download it</a>, open the file, and tap Update. Your library stays.`;
           if (quiet) flash("A new version of the app is out. See Settings → App.");
         } else if (!quiet) out.textContent = "You have the latest version.";
-      } catch (err) { if (!quiet) out.textContent = "Couldn't check: " + err.message; }
+      } catch (err) { if (!quiet) out.textContent = / 404$/.test(err.message) ? "You have the latest version." : "Couldn't check: " + err.message; }
     }
     $("#ctUpdBtn").onclick = () => checkUpdate(false);
     setTimeout(() => checkUpdate(true), 8000);
