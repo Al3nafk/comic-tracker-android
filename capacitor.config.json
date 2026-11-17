@@ -1,0 +1,11 @@
+{
+  "appId": "io.github.al3nafk.comictracker",
+  "appName": "Comic Tracker",
+  "webDir": "www",
+  "backgroundColor": "#141312",
+  "android": { "allowMixedContent": false },
+  "plugins": {
+    "CapacitorHttp": { "enabled": false },
+    "LocalNotifications": { "iconColor": "#ff7a3d" }
+  }
+}
